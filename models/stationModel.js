@@ -4,7 +4,7 @@ const stationSchema = mongoose.Schema({
   location: String,
   address: String,
   postcode: String,
-  telephone: Number,
+  telephone: String,
 });
 
 const Station = mongoose.model("Station", stationSchema);
