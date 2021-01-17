@@ -5,7 +5,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 // dotenv.config({ path: "./.env" });
 
-const DB = process.env.DB_URI.replace("<PASSWORD>", process.env.DB_PASSWORD);
+// const DB = process.env.DB_URI.replace("<PASSWORD>", process.env.DB_PASSWORD);
+const DB = process.env.DB_URI_LOCAL //to connect to local (pi 4) mongodb
 
 mongoose
   .connect(DB, {
