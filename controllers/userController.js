@@ -1,11 +1,17 @@
 const User = require("../models/userModel");
 
-exports.getUsers = async (req, res, next) => {
-  const users = await User.find();
+//ADMIN LEVEL
+exports.getUser = async (req, res, next) => {
+  const user = await User.find({fullname: "Gustavo Zapata"});
 
   res.status(200).json({
     status: "success",
-    message: "ready to start building the server",
-    data: users,
+    data: user,
   });
+};
+
+// USER LEVEL
+exports.getMe = (req, res, next) => {
+req.params.id = req.user.id;
+next();
 };

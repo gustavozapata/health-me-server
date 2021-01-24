@@ -1,6 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
-const dotenv = require("dotenv")
+const dotenv = require("dotenv");
 
 const userRouter = require("./routes/userRoutes");
 const bookingRouter = require("./routes/bookingRoutes");
@@ -10,6 +10,8 @@ const resultRouter = require("./routes/resultRoutes");
 const app = express();
 
 dotenv.config(); //allows the use of env variables
+
+app.use(express.json()); //allows us to access the body of the request
 
 if(process.env.NODE_ENV === "development"){
     app.use(morgan("dev")); //logs all the server activity
