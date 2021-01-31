@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 
-const resultSchema = mongoose.Schema({
-  user: Number,
-  bloodType: String,
-  results: {
-    type: Object,
-  },
+const ResultSchema = mongoose.Schema({
+  blood_type: String,
+test: String,
+date: String,
+red_blood_cells: Number,
+whiteBloodCells:Number,
+cholesterolLevel:Number,
+glucose_level:Number,
+hemoglobin:Number,
+plateletCount:Number,
 });
 
-const Result = mongoose.model("Result", resultSchema);
-
-module.exports = Result;
+module.exports = ResultSchema;

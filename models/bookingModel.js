@@ -1,16 +1,11 @@
 const mongoose = require("mongoose");
 
-const bookingSchema = mongoose.Schema({
-  user: {
-    type: Number,
-  },
-  station: {
-    type: String,
-  },
-  date: Date,
-  time: String,
-});
+const BookingSchema = mongoose.Schema({
+  location: String,
+  // station: { type: String}, //TODO: link to station??
+  address: String,
+  date: String, //TODO: make it a Date
+  time: String
+})
 
-const Booking = mongoose.model("Booking", bookingSchema);
-
-module.exports = Booking;
+module.exports = BookingSchema;
