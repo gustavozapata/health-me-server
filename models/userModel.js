@@ -1,23 +1,23 @@
 const mongoose = require("mongoose");
-const ResultSchema = require("./resultModel")
-const MessageSchema = require("./messageModel")
-const BookingSchema = require("./bookingModel")
+const ResultSchema = require("./resultModel");
+const MessageSchema = require("./messageModel");
+const BookingSchema = require("./bookingModel");
 
 const UserSchema = mongoose.Schema({
   fullname: {
     type: String,
-    required: [true, "You must enter a name"]
+    required: [true, "You must enter a name"],
   },
   email: {
     type: String,
     required: [true, "You must enter an email"],
-    unique: true //value must be unique
+    unique: true, //value must be unique
   },
   password: {
     type: String,
     required: [true, "You must enter a password"],
     minlength: 6, //password length must be minumum 6 character
-    select: false, //not show this value
+    select: false, //hide this value
   },
   results: [ResultSchema],
   messages: [MessageSchema],
