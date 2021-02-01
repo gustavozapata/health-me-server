@@ -18,6 +18,7 @@ exports.login = async(req, res, next) => {
   if (!user || password !== user.password) {
     code = 401
     status = "error"
+    user = {}
     message = "Incorrect email or password"
     isLogged = false
   } 
