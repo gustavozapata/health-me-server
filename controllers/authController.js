@@ -21,8 +21,7 @@ exports.login = async(req, res, next) => {
     user = {}
     message = "Incorrect email or password"
     isLogged = false
-  } 
-  console.log(user.bookings)
+  }
     
   //TODO: IMPLEMENT JWT
     res.status(code).json({
