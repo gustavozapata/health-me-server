@@ -2,6 +2,7 @@ const User = require('../models/userModel')
 
 exports.sendMessage = async (req, res, next) => {
     const thread = {
+        id: "4",
         date: dateToString(),
         time: timeToString(),
         text: req.body.message,
@@ -9,8 +10,8 @@ exports.sendMessage = async (req, res, next) => {
     }
      
     const user = await User.findOneAndUpdate({ "_id": req.params.id, "messages.sender": req.body.sender}, { 
-        $push: {"messages.$.threads": thread}
-    }).select("+password");
+        $push: {"messages.$.threads": thread},
+    }, {new: true}).select("+password");
 
     res.status(201).json({
         status: "success",

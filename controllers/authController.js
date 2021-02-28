@@ -15,7 +15,7 @@ exports.login = async(req, res, next) => {
   let isLogged = true
 
   //check if user exists && password is correct
-  if (!user || password !== user.password) {
+  if (!user || !(await user.checkPassword(password, user.password))) {
     code = 401
     status = "error"
     user = {}
@@ -23,27 +23,23 @@ exports.login = async(req, res, next) => {
     isLogged = false
   }
     
-  //TODO: IMPLEMENT JWT
-    res.status(code).json({
-      status,
-      data: user,
-      message,
-      isLogged,
-    });
+  res.status(code).json({
+    status,
+    data: user,
+    message,
+    isLogged,
+  });
 }
 
 exports.signup = async(req, res, next) => {
-    const { fullname, email, password } = req.body;
+  const { fullname, email, password } = req.body;
 
-  //TODO: the below replaces this: await User.create(req.body);
-  //problem with the above is that the user can send a body to that route with say {admin: true}
+  //User.create(req.body) could allow users to enter details that are not allowed e.g. admin: true
   const newUser = await User.create({fullname, email, password});
 
-  //TODO: IMPLEMENT JWT
   res.status(201).json({
     status: "success",
     data: newUser,
     isLogged: true,
-});
-
+  });
 }
