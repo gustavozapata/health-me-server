@@ -5,7 +5,6 @@ const BookingSchema = require("./bookingModel")
 const bcrypt = require("bcryptjs")
 
 const UserSchema = mongoose.Schema({
-  id: String,
   fullname: {
     type: String,
     required: [true, "You must enter a name"]
