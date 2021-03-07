@@ -8,6 +8,7 @@ router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 
 //private routes
+router.get("/bookings", userController.getAllBookings)
 router.get("/me", userController.getUser);
 
 module.exports = router;
