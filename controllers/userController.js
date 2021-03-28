@@ -10,6 +10,7 @@ exports.getUser = async (req, res, next) => {
   });
 };
 
+//FIXME: replaced by getBookings on bookingController
 exports.getAllBookings = async (req, res, next) => {
   const bookings = await User.find({}).select({"_id": 0, "bookings": 1});
 

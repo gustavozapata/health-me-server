@@ -1,10 +1,26 @@
 const Booking = require("../models/bookingModel");
+const User = require("../models/userModel");
 
-exports.getBookings = async (req, res, next) => {
+//FIXME: old referencing way
+exports.getBookings2 = async (req, res, next) => {
   const bookings = await Booking.find();
-
   res.status(200).json({
     status: "success",
     data: bookings,
+  });
+};
+
+exports.getBookings = async (req, res, next) => {
+  const response = await User.find().select("bookings");
+  let allBookings = {bookings: []}
+  response.map(booking => {
+    booking.bookings.map(b => {
+      allBookings.bookings.push(b)
+    })
+  })
+
+  res.status(200).json({
+    status: "success",
+    data: allBookings,
   });
 };
