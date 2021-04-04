@@ -1,12 +1,18 @@
-const Booking = require("../models/bookingModel");
+// const Booking = require("../models/bookingModel");
 const User = require("../models/userModel");
 
-//FIXME: old referencing way
-exports.getBookings2 = async (req, res, next) => {
-  const bookings = await Booking.find();
-  res.status(200).json({
+exports.addBooking = async (req, res, next) => {
+  const booking = await User.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      $push: { bookings: req.body },
+    },
+    { new: true }
+  ).select("+password");
+
+  res.status(201).json({
     status: "success",
-    data: bookings,
+    data: booking,
   });
 };
 
