@@ -1,15 +1,25 @@
 const mongoose = require("mongoose");
 
 const MessageSchema = mongoose.Schema({
-    sender: String,
-    read: Boolean,
-    threads: [{
-        date: String,
-        time: String,
-        text: String,
-        user: Boolean,
-        options: [String]
-    }]
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    time: {
+        type: String,
+        default: timeToString
+    },
+    text: String,
+    isUser: {
+        type: Boolean,
+        default: true
+    },
+    options: [String]
 })
+
+function timeToString() {
+    var today = new Date()
+    return today.getHours() + ":" + today.getMinutes()
+}
 
 module.exports = MessageSchema;
