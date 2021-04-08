@@ -14,7 +14,7 @@ const MessageSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
-    options: [String]
+    options: [Object]
 })
 
 function timeToString() {

@@ -1,5 +1,6 @@
 // const Booking = require("../models/bookingModel");
 const User = require("../models/userModel");
+const {sendBookingMessage} = require('./messageController')
 
 exports.addBooking = async (req, res, next) => {
   //this solves the British Summer Time (BST) oddness where the time changes in summer https://stackoverflow.com/a/45908136/6099890
@@ -7,18 +8,14 @@ exports.addBooking = async (req, res, next) => {
   cleanDate.setTime( cleanDate.getTime() - cleanDate.getTimezoneOffset() * 60 * 1000 );
   req.body.date = cleanDate
 
-  const booking = await User.findOneAndUpdate(
+  await User.findOneAndUpdate(
     { _id: req.params.id },
-    {
-      $push: { bookings: req.body },
-    },
-    { new: true }
+    { $push: { bookings: req.body } },{ new: true }
   ).select("+password");
 
-  res.status(201).json({
-    status: "success",
-    data: booking,
-  });
+  req.body.booking = req.body
+  req.body.code = 200
+  sendBookingMessage(req, res, next)
 };
 
 exports.getBookings = async (req, res, next) => {

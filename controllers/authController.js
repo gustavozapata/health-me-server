@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const {sendAutoResponse} = require('./messageController')
 
 exports.login = async(req, res, next) => {
     const { email, password } = req.body;
@@ -35,7 +36,7 @@ exports.signup = async(req, res, next) => {
   const { fullname, email, password } = req.body;
 
   //User.create(req.body) could allow users to enter details that are not allowed e.g. admin: true
-  const newUser = await User.create({fullname, email, password});
+  const newUser = await User.create({fullname, email, password, messages: sendAutoResponse(1)});
 
   res.status(201).json({
     status: "success",
