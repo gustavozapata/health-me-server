@@ -9,11 +9,14 @@ exports.login = async(req, res, next) => {
     return console.log("Please provide email and password");
   }
 
-  let user = await User.findOne({ email }).select("+password");
+  let user = await User.findOne({ email }).select("+password")
   let code = 200
   let status = "success"
   let message = ""
   let isLogged = true
+
+  //sort bookings for the past tests list
+  user.bookings = user.bookings.sort((a, b) => b.date - a.date)
 
   //check if user exists && password is correct
   if (!user || !(await user.checkPassword(password, user.password))) {

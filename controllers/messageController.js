@@ -11,6 +11,9 @@ exports.sendMessage = async (req, res, next) => {
         { new: true }
     ).select("+password");
 
+    //sort bookings for the past tests list
+    message.bookings = message.bookings.sort((a, b) => b.date - a.date)
+
     res.status(201).json({
         status: "success",
         data: message
@@ -18,15 +21,18 @@ exports.sendMessage = async (req, res, next) => {
 }
 
 exports.sendBookingMessage = async (req, res, next) => {
-    const message = await User.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
         { _id: req.params.id },
         { $push: { messages: sendAutoResponse(req.body.code, req.body.booking) } },
         { new: true }
-    ).select("+password");
+    ).select("+password")
+
+    //sort bookings for the past tests list
+    user.bookings = user.bookings.sort((a, b) => b.date - a.date)
 
     res.status(201).json({
         status: "success",
-        data: message
+        data: user
     })
 }
 
