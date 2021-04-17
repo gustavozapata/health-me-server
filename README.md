@@ -8,3 +8,7 @@
  - Express.js
  - MongoDB
  - Mongoose ODM
+
+ ## Development
+ - Start MongoDB on Ubuntu: sudo systemctl start mongod
+ - Start server watch mode: pm2 start server --watch 
