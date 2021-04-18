@@ -5,6 +5,12 @@ exports.sendMessage = async (req, res, next) => {
         {text: req.body.option},
         sendAutoResponse(req.body.code)
     ]
+
+    //if message action is 'cancel' booking
+    if(req.body.code === 350) {
+        await deleteBooking(req)
+    }
+
     const message = await User.findOneAndUpdate(
         { _id: req.params.id },
         { $push: { messages: { $each: newMessages } } },
@@ -18,6 +24,21 @@ exports.sendMessage = async (req, res, next) => {
         status: "success",
         data: message
     })
+}
+
+//delete booking from the messages actions
+const deleteBooking = async (req) => {
+    let bookings = await User.findOne({_id: req.params.id}).select("bookings")
+    bookings = bookings.bookings.sort((a, b) =>  b.bookedAt - a.bookedAt)
+    
+    if(bookings.length > 0){
+        req.body._id  = bookings[0]._id
+        const user = await User.findOneAndUpdate(
+            { _id: req.params.id },
+            { $pull: { bookings: {_id: req.body._id} } },
+            { new: true }
+        ).select("+password -__v");
+    }
 }
 
 exports.sendBookingMessage = async (req, res, next) => {

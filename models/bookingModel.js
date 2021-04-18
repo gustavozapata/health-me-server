@@ -6,6 +6,10 @@ const BookingSchema = mongoose.Schema({
   address: String,
   date: Date,
   time: String,
+  bookedAt: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 module.exports = BookingSchema;

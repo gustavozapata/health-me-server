@@ -38,16 +38,29 @@ exports.getBookings = async (req, res, next) => {
 };
 
 exports.deleteBooking = async (req, res, next) => {
-    const user = await User.findOneAndUpdate(
-      { _id: req.params.id },
-      { $pull: { bookings: {_id: req.body._id} } },
-      { new: true }
-    ).select("+password -__v");
+  let bookings = await User.findOne({_id: req.params.id}).select("bookings")
+  bookings = bookings.bookings.sort((a, b) =>  b.bookedAt - a.bookedAt)
+
+  //if booking is last being booked, delete the message action
+  if(bookings.length > 0 && bookings[0]._id.equals(req.body._id)) {
+    console.log("ademtro")
+    await User.findOneAndUpdate(
+      {_id: req.params.id},
+      {$pop: {messages: 1}},
+      {new: true}
+    )
+  }
+
+  const user = await User.findOneAndUpdate(
+    { _id: req.params.id },
+    { $pull: { bookings: {_id: req.body._id} } },
+    { new: true }
+  ).select("+password -__v");
     
-    res.status(200).json({
-      status: "success",
-      data: user,
-    });
+  res.status(200).json({
+    status: "success",
+    data: user,
+  });
 }
 
 exports.addPayment = async (req, res, next) => {
