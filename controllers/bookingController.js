@@ -64,29 +64,14 @@ exports.deleteBooking = async (req, res, next) => {
 }
 
 exports.addPayment = async (req, res, next) => {
-  const post = await User.findById(req.params.id);
-
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    success_url: `https://zona.gustavozapata.me`,
-    cancel_url: `https://zona.gustavozapata.me`,
-    customer_email: req.user.email,
-    client_reference_id: req.params.id,
-    line_items: [
-      {
-        name: `${post.description}`,
-        description: `${post.location}`,
-        images: [`https://server.gustavozapata.me/zona/public/${post.image}`],
-        amount: post.price * 100, //convert to cents (pens) since stripe expects cents
-        currency: "usd",
-        quantity: 1,
-      },
-    ],
+  await stripe.charges.create({
+    amount: 1000,
+    currency: 'gbp',
+    source: 'tok_visa',
+    description: `Blood test booked for ${req.body.booking}`,
   });
 
-  //2. create session as response
   res.status(200).json({
     status: "success",
-    session,
   });
 }
