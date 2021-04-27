@@ -25,8 +25,23 @@ exports.getAllBookings = async (req, res, next) => {
   })
 }
 
+exports.updateDetails = async (req, res, next) => {
+  try {
+      const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    }).select("+password -__v");
+    
+    res.status(200).json({
+      status: "success",
+      data: user
+    })
+  } catch(err) {
+    console.log(err)
+  }
+}
+
 // USER LEVEL
 exports.getMe = (req, res, next) => {
-req.params.id = req.user.id;
-next();
+  req.params.id = req.user.id;
+  next();
 };

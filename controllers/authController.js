@@ -15,9 +15,6 @@ exports.login = async(req, res, next) => {
   let message = ""
   let isLogged = true
 
-  //sort bookings for the past tests list
-  user.bookings = user.bookings.sort((a, b) => b.date - a.date)
-
   //check if user exists && password is correct
   if (!user || !(await user.checkPassword(password, user.password))) {
     code = 401
@@ -25,6 +22,9 @@ exports.login = async(req, res, next) => {
     user = {}
     message = "Incorrect email or password"
     isLogged = false
+  } else {
+    //sort bookings for the past tests list
+    user.bookings = user.bookings.sort((a, b) => b.date - a.date)
   }
     
   res.status(code).json({
