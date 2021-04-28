@@ -1,4 +1,5 @@
 const User = require('../models/userModel')
+const {sendResults} = require('./resultController')
 
 exports.sendMessage = async (req, res, next) => {
     let newMessages = [
@@ -48,13 +49,7 @@ exports.sendBookingMessage = async (req, res, next) => {
         { new: true }
     ).select("+password")
 
-    //sort bookings for the past tests list
-    user.bookings = user.bookings.sort((a, b) => b.date - a.date)
-
-    res.status(201).json({
-        status: "success",
-        data: user
-    })
+    sendResults(req, res, next)
 }
 
 const sendAutoResponse = (code, booking) => {
