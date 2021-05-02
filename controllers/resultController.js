@@ -41,8 +41,8 @@ const randomiseResults = (date) => ({
   date: date,
   red_blood_cells: 2988,
   whiteBloodCells:1988,
-  cholesterolLevel:2,
-  glucose_level:33,
-  hemoglobin:23,
-  plateletCount:12,
+  cholesterolLevel:200,
+  glucose_level:133,
+  hemoglobin:123,
+  plateletCount:124,
 })
