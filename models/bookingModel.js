@@ -4,8 +4,12 @@ const BookingSchema = mongoose.Schema({
   location: String,
   // station: { type: String}, //TODO: link to station??
   address: String,
-  date: String, //TODO: make it a Date
+  date: Date,
   time: String,
+  bookedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = BookingSchema;

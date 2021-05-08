@@ -5,6 +5,8 @@ npm-debug.log*
 
 # GZ
 Local
+Local/
+/Local
 .env
 .DS_Store
 

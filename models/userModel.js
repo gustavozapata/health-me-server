@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const ResultSchema = require("./resultModel");
 const MessageSchema = require("./messageModel");
 const BookingSchema = require("./bookingModel");
+const bcrypt = require("bcryptjs");
 
 const UserSchema = mongoose.Schema({
   fullname: {
@@ -23,6 +24,18 @@ const UserSchema = mongoose.Schema({
   messages: [MessageSchema],
   bookings: [BookingSchema],
 });
+
+//pre 'save' runs before saving (create, post) into the db
+UserSchema.pre("save", async function (next) {
+  //hash the password with cost at 12
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+//checks if the password is correct
+UserSchema.methods.checkPassword = async function (password, userPassword) {
+  return await bcrypt.compare(password, userPassword);
+};
 
 const User = mongoose.model("User", UserSchema);
 

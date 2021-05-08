@@ -8,7 +8,7 @@ router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 
 //private routes
-// router.get("/me", userController.getMe, userController.getUser);
+router.patch("/update/:id", userController.updateDetails);
 router.get("/me", userController.getUser);
 
 module.exports = router;

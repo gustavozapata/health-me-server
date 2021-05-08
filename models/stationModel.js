@@ -4,6 +4,8 @@ const stationSchema = mongoose.Schema({
   location: String,
   address: String,
   postcode: String,
+  latitude: Number,
+  longitude: Number,
   telephone: String,
 });
 

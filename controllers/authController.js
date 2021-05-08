@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const {sendAutoResponse} = require('./messageController')
 
 exports.login = async(req, res, next) => {
     const { email, password } = req.body;
@@ -8,42 +9,41 @@ exports.login = async(req, res, next) => {
     return console.log("Please provide email and password");
   }
 
-  let user = await User.findOne({ email }).select("+password");
+  let user = await User.findOne({ email }).select("+password")
   let code = 200
   let status = "success"
   let message = ""
   let isLogged = true
 
   //check if user exists && password is correct
-  if (!user || password !== user.password) {
+  if (!user || !(await user.checkPassword(password, user.password))) {
     code = 401
     status = "error"
+    user = {}
     message = "Incorrect email or password"
     isLogged = false
-  } 
-  console.log(user.bookings)
+  } else {
+    //sort bookings for the past tests list
+    user.bookings = user.bookings.sort((a, b) => b.date - a.date)
+  }
     
-  //TODO: IMPLEMENT JWT
-    res.status(code).json({
-      status,
-      data: user,
-      message,
-      isLogged,
-    });
+  res.status(code).json({
+    status,
+    data: user,
+    message,
+    isLogged,
+  });
 }
 
 exports.signup = async(req, res, next) => {
-    const { fullname, email, password } = req.body;
+  const { fullname, email, password } = req.body;
 
-  //TODO: the below replaces this: await User.create(req.body);
-  //problem with the above is that the user can send a body to that route with say {admin: true}
-  const newUser = await User.create({fullname, email, password});
+  //User.create(req.body) could allow users to enter details that are not allowed e.g. admin: true
+  const newUser = await User.create({fullname, email, password, messages: sendAutoResponse(1)});
 
-  //TODO: IMPLEMENT JWT
   res.status(201).json({
     status: "success",
     data: newUser,
     isLogged: true,
-});
-
+  });
 }
