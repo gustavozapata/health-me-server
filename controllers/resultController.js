@@ -1,6 +1,6 @@
 const User = require('../models/userModel')
 const Result = require("../models/resultModel");
-const { BLOOD_TYPES } = require('../utils/results');
+const { BLOOD_TYPES, randomise } = require('../utils/results');
 
 exports.getResults = async (req, res, next) => {
   try {
