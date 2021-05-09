@@ -1,5 +1,6 @@
 const User = require('../models/userModel')
 const Result = require("../models/resultModel");
+const { BLOOD_TYPES } = require('../utils/results');
 
 exports.getResults = async (req, res, next) => {
   try {
@@ -36,13 +37,13 @@ exports.sendResults = async (req, res, next) => {
 }
 
 const randomiseResults = (date) => ({
-  blood_type: "B+",
-  test: "CBC",
+  blood_type: BLOOD_TYPES[Math.floor(Math.random() * BLOOD_TYPES.length)],
+  test: "Full-Screen",
   date: date,
-  red_blood_cells: 2988,
+  red_blood_cells: randomise(1000, 3000),
   whiteBloodCells:1988,
-  cholesterolLevel:200,
-  glucose_level:133,
-  hemoglobin:123,
-  plateletCount:124,
+  cholesterolLevel:randomise(100, 200),
+  glucose_level:randomise(133, 350),
+  hemoglobin:randomise(123, 350),
+  plateletCount:randomise(124, 350),
 })
