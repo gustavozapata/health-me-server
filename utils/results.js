@@ -23,3 +23,16 @@ AB negative: 1%
 exports.randomise = (min, max) => {
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
+exports.randomiseDecimal = (min, max) => {  
+    let random = Math.random() * (max - min) + min;
+    let power = Math.pow(10, 1);
+    return Math.floor(random * power) / power;
+}
+
+exports.handleError = (res, err) => {
+    res.status(400).json({
+        status: "error",
+        error: err,
+    });
+}
