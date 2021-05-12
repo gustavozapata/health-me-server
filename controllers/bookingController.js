@@ -4,16 +4,18 @@ const {sendBookingMessage} = require('./messageController')
 const dotenv = require('dotenv');
 const { handleError } = require("../utils/results");
 
+//use environment variables
 dotenv.config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.addBooking = async (req, res, next) => {
   try {
-    //this solves the British Summer Time (BST) oddness where the time changes in summer https://stackoverflow.com/a/45908136/6099890
+    //this solves the British Summer Time (BST) oddness when the time changes in summer https://stackoverflow.com/a/45908136/6099890
     var cleanDate = new Date(req.body.date);
     cleanDate.setTime( cleanDate.getTime() - cleanDate.getTimezoneOffset() * 60 * 1000 );
     req.body.date = cleanDate
 
+    //find user and add booking
     await User.findOneAndUpdate(
       { _id: req.params.id },
       { $push: { bookings: req.body } },{ new: true }
@@ -27,6 +29,7 @@ exports.addBooking = async (req, res, next) => {
   }
 };
 
+//get all bookings from all users to check appointment availability
 exports.getBookings = async (req, res, next) => {
   try {
     const response = await User.find().select("bookings");
@@ -77,6 +80,7 @@ exports.deleteBooking = async (req, res, next) => {
 
 exports.addPayment = async (req, res, next) => {
   try {
+    //register payment to stripe
     await stripe.charges.create({
       amount: 1000,
       currency: 'gbp',

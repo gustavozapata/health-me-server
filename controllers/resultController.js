@@ -15,6 +15,7 @@ exports.getResults = async (req, res, next) => {
   }
 };
 
+//send blood test results back to client
 exports.sendResults = async (req, res, next) => {
   const results = randomiseResults(req.body.date)
 
@@ -36,13 +37,14 @@ exports.sendResults = async (req, res, next) => {
   }
 }
 
+//randomise the blood test results
 const randomiseResults = (date) => ({
   blood_type: BLOOD_TYPES[Math.floor(Math.random() * BLOOD_TYPES.length)],
   test: "Full-Screen",
   date: date,
   red_blood_cells: randomiseDecimal(2, 7),
-  whiteBloodCells: randomise(3000, 12000),
-  plateletCount:randomise(120000, 500000),
+  whiteBloodCells: randomise(3000, 13000),
+  plateletCount:randomise(100000, 500000),
   cholesterolLevel:randomise(100, 300),
   glucose_level:randomise(70, 300),
   hemoglobin:randomise(123, 350),

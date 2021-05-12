@@ -32,7 +32,7 @@ STRIPE_SECRET_KEY=
  - $ npm start
  - This will run the server application
 
- ## Development
+### Development
  - These command are useful when running this app from a Linux Ubuntu environment
  - Make sure mongodb and pm2 are installed 
  - Start MongoDB on Ubuntu: sudo systemctl start mongod

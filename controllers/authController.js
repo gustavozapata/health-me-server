@@ -4,7 +4,7 @@ const {sendAutoResponse} = require('./messageController')
 exports.login = async(req, res, next) => {
     const { email, password } = req.body;
 
-    //check if email and password were entered (were sent)
+    //check if email and password were entered
   if (!email || !password) {
     return console.log("Please provide email and password");
   }
@@ -15,7 +15,7 @@ exports.login = async(req, res, next) => {
   let message = ""
   let isLogged = true
 
-  //check if user exists && password is correct
+  //check if user exists and password is correct
   if (!user || !(await user.checkPassword(password, user.password))) {
     code = 401
     status = "error"
@@ -27,6 +27,7 @@ exports.login = async(req, res, next) => {
     user.bookings = user.bookings.sort((a, b) => b.date - a.date)
   }
     
+  //send response as json
   res.status(code).json({
     status,
     data: user,

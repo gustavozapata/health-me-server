@@ -7,7 +7,7 @@ exports.sendMessage = async (req, res, next) => {
         sendAutoResponse(req.body.code)
     ]
 
-    //if message action is 'cancel' booking
+    //if message action is cancel booking, delete booking
     if(req.body.code === 350) {
         await deleteBooking(req)
     }
@@ -52,6 +52,7 @@ exports.sendBookingMessage = async (req, res, next) => {
     sendResults(req, res, next)
 }
 
+//send response to client depending on the code of their message
 const sendAutoResponse = (code, booking) => {
     let message = {
         text: "",

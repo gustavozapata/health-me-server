@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 
-//ADMIN LEVEL
+//testing endpoint
 exports.getUser = async (req, res, next) => {
   const user = await User.find({fullname: "Gustavo Zapata"});
 
@@ -10,11 +10,9 @@ exports.getUser = async (req, res, next) => {
   });
 };
 
-//FIXME: replaced by getBookings on bookingController
 exports.getAllBookings = async (req, res, next) => {
   const bookings = await User.find({}).select({"_id": 0, "bookings": 1});
 
-  console.log(bookings) //[ { bookings: [ [Object], [Object] ] }, { bookings: [] } ]
   bookings.map(book => {
     console.log(book)
   })
@@ -25,6 +23,7 @@ exports.getAllBookings = async (req, res, next) => {
   })
 }
 
+//update personal details
 exports.updateDetails = async (req, res, next) => {
   try {
       const user = await User.findByIdAndUpdate(req.params.id, req.body, {
@@ -40,7 +39,7 @@ exports.updateDetails = async (req, res, next) => {
   }
 }
 
-// USER LEVEL
+//testing endpoint
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();

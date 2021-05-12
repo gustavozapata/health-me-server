@@ -18,6 +18,7 @@ if(process.env.NODE_ENV === "development"){
     app.use(morgan("dev")); //logs all the server activity
 }
 
+//router endpoints
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/bookings", bookingRouter);
 app.use("/api/v1/stations", stationRouter);

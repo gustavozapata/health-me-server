@@ -1,5 +1,6 @@
 const Station = require("../models/stationModel");
 
+//get all the blood stations
 exports.getStations = async (req, res, next) => {
   try {
     const stations = await Station.find();

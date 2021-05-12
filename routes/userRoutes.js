@@ -3,11 +3,11 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 
-//public routes
+//public endpoints
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 
-//private routes
+//private endpoints
 router.patch("/update/:id", userController.updateDetails);
 router.get("/me", userController.getUser);
 
